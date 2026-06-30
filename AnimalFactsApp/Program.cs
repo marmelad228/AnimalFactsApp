@@ -25,8 +25,8 @@ namespace AnimalFactsApp
                 Console.WriteLine("========================================");
                 Console.WriteLine("      ПРИЛОЖЕНИЕ: ИНТЕРЕСНЫЕ ФАКТЫ     ");
                 Console.WriteLine("========================================");
-                Console.WriteLine("1. Получить случайный факт о СОБАКАХ");
-                Console.WriteLine("2. Получить случайный факт о КОШКАХ");
+                Console.WriteLine("1. Получить случайный факт о собаках");
+                Console.WriteLine("2. Получить случайный факт о кошках");
                 Console.WriteLine("3. Выход из программы");
                 Console.WriteLine("========================================");
                 Console.Write("Выберите действие (1-3): ");
@@ -43,10 +43,10 @@ namespace AnimalFactsApp
                         break;
                     case "3":
                         keepRunning = false;
-                        Console.WriteLine("\nПрограмма успешно завершена. До встречи!");
+                        Console.WriteLine("Программа успешно завершена. До встречи!");
                         break;
                     default:
-                        Console.WriteLine("\nОшибка ввода! Нажмите любую кнопку для повтора...");
+                        Console.WriteLine("Ошибка ввода! Нажмите любую кнопку для повтора...");
                         Console.ReadKey();
                         break;
                 }
@@ -56,34 +56,34 @@ namespace AnimalFactsApp
         // МЕТОД ДЛЯ ОБРАБОТКИ СОБАК
         private static async Task FetchDogFactAsync()
         {
-            string endpoint = "https://dog-api.kinduff.com/api/facts";
+            string endpoint = "https://dog-api.kinduff.com/api/facts";// первый эндпоинт
 
-            Console.WriteLine("\nОтправка GET-запроса к Dog API...");
+            Console.WriteLine("Отправка GET-запроса к Dog API...");
             try
             {
-                HttpResponseMessage response = await client.GetAsync(endpoint);
+                HttpResponseMessage response = await client.GetAsync(endpoint);// 1 запрос rest api 
 
-                // Выводим статус ответа (Критерий лабораторной!)
+                // Выводим статус ответа
                 Console.WriteLine($"Статус HTTP-ответа сервера: {(int)response.StatusCode} {response.StatusCode}");
 
                 if (response.IsSuccessStatusCode)
                 {
                     string jsonString = await response.Content.ReadAsStringAsync();
 
-                    // Парсим в наш класс DogFact
+                    // Парсим в класс DogFact
                     DogFact dogData = JsonConvert.DeserializeObject<DogFact>(jsonString);
 
                     // ПРОВЕРКА: Если массив фактов не пустой, выводим нулевой элемент
                     if (dogData != null && dogData.Facts != null && dogData.Facts.Count > 0)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine($"\nФАКТ О СОБАКАХ: {dogData.Facts[0]}");
+                        Console.WriteLine($"ФАКТ О СОБАКАХ: {dogData.Facts[0]}");
                         Console.ForegroundColor = ConsoleColor.Gray;
                     }
                     else
                     {
                         // Если сервер прислал пустой массив, выведем сырой текст ответа для отладки
-                        Console.WriteLine("\nСервер вернул успешный статус, но массив фактов пуст.");
+                        Console.WriteLine("Сервер вернул успешный статус, но массив фактов пуст.");
                         Console.WriteLine($"Ответ сервера: {jsonString}");
                     }
                 }
@@ -93,19 +93,19 @@ namespace AnimalFactsApp
                 Console.WriteLine($"Произошла ошибка при выполнении запроса: {ex.Message}");
             }
 
-            Console.WriteLine("\nНажмите любую клавишу, чтобы вернуться в меню...");
+            Console.WriteLine("Нажмите любую клавишу, чтобы вернуться в меню...");
             Console.ReadKey();
         }
 
         // МЕТОД ДЛЯ ОБРАБОТКИ КОШЕК
         private static async Task FetchCatFactAsync()
         {
-            string endpoint = "https://catfact.ninja/fact";
+            string endpoint = "https://catfact.ninja/fact";// второй эндпоинт
 
-            Console.WriteLine("\nОтправка GET-запроса к Cat API...");
+            Console.WriteLine("Отправка GET-запроса к Cat API...");
             try
             {
-                HttpResponseMessage response = await client.GetAsync(endpoint);
+                HttpResponseMessage response = await client.GetAsync(endpoint);//  2 запрос rest api
 
                 // Выводим статус ответа
                 Console.WriteLine($"Статус HTTP-ответа сервера: {(int)response.StatusCode} {response.StatusCode}");
@@ -118,7 +118,7 @@ namespace AnimalFactsApp
                     CatFact catData = JsonConvert.DeserializeObject<CatFact>(jsonString);
 
                     Console.ForegroundColor = ConsoleColor.Cyan;
-                    Console.WriteLine($"\nФАКТ О КОШКАХ: {catData.Fact}");
+                    Console.WriteLine($"ФАКТ О КОШКАХ: {catData.Fact}");
                     Console.ForegroundColor = ConsoleColor.Gray;
                 }
             }
@@ -127,7 +127,7 @@ namespace AnimalFactsApp
                 Console.WriteLine($"Произошла ошибка при выполнении запроса: {ex.Message}");
             }
 
-            Console.WriteLine("\nНажмите любую клавишу, чтобы вернуться в меню...");
+            Console.WriteLine("Нажмите любую клавишу, чтобы вернуться в меню...");
             Console.ReadKey();
         }
     }

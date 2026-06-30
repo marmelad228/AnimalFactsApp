@@ -9,13 +9,16 @@ using System.Threading.Tasks;
 namespace AnimalFactsApp
 {
     internal class Program
+
     {
+        private static int dogFactsCount = 0;
+        private static int catFactsCount = 0;
         // Создаем один общий HttpClient для запросов
         private static readonly HttpClient client = new HttpClient();
 
         static async Task Main(string[] args)
         {
-            // Настройка консоли на корректное чтение кириллицы
+            
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             bool keepRunning = true;
 
@@ -29,8 +32,9 @@ namespace AnimalFactsApp
                 Console.WriteLine("1. Получить случайный факт о собаках");
                 Console.WriteLine("2. Получить случайный факт о кошках");
                 Console.WriteLine("3. Выход из программы");
+                Console.WriteLine("4. Показать статистику текущей сессии");
                 Console.WriteLine("========================================");
-                Console.Write("Выберите действие (1-3): ");
+                Console.Write("Выберите действие (1-4): ");
                 Console.ForegroundColor = ConsoleColor.Gray;
 
                 string choice = Console.ReadLine();
@@ -47,10 +51,14 @@ namespace AnimalFactsApp
                         keepRunning = false;
                         Console.WriteLine("Программа успешно завершена. До встречи!");
                         break;
+                    case "4":
+                        ShowStatistics();
+                        break;
                     default:
                         Console.WriteLine("Ошибка ввода! Нажмите любую кнопку для повтора...");
                         Console.ReadKey();
                         break;
+
                 }
             }
         }
@@ -66,17 +74,18 @@ namespace AnimalFactsApp
             {
                 HttpResponseMessage response = await client.GetAsync(endpoint);// 1 запрос rest api 
 
-                // Выводим статус ответа
+                
                 Console.WriteLine($"Статус HTTP-ответа сервера: {(int)response.StatusCode} {response.StatusCode}");
 
                 if (response.IsSuccessStatusCode)
                 {
+                    dogFactsCount++;
                     string jsonString = await response.Content.ReadAsStringAsync();
 
                     // Парсим в класс DogFact
                     DogFact dogData = JsonConvert.DeserializeObject<DogFact>(jsonString);
 
-                    // ПРОВЕРКА: Если массив фактов не пустой, выводим нулевой элемент
+                    // Если массив фактов не пустой, выводим нулевой элемент
                     if (dogData != null && dogData.Facts != null && dogData.Facts.Count > 0)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
@@ -88,7 +97,7 @@ namespace AnimalFactsApp
                     }
                     else
                     {
-                        // Если сервер прислал пустой массив, выведем сырой текст ответа 
+                        // Если сервер прислал пустой массив
                         Console.WriteLine("Сервер вернул успешный статус, но массив фактов пуст.");
                         Console.WriteLine($"Ответ сервера: {jsonString}");
                     }
@@ -114,14 +123,15 @@ namespace AnimalFactsApp
             {
                 HttpResponseMessage response = await client.GetAsync(endpoint);//  2 запрос rest api
 
-                // Выводим статус ответа
+                
                 Console.WriteLine($"Статус HTTP-ответа сервера: {(int)response.StatusCode} {response.StatusCode}");
 
                 if (response.IsSuccessStatusCode)
                 {
+                    catFactsCount++;
                     string jsonString = await response.Content.ReadAsStringAsync();
 
-                    // Парсим в наш класс CatFact (название обновлено)
+                    // Парсим в наш класс CatFact 
                     CatFact catData = JsonConvert.DeserializeObject<CatFact>(jsonString);
 
                     Console.ForegroundColor = ConsoleColor.Cyan;
@@ -134,6 +144,20 @@ namespace AnimalFactsApp
                 Console.WriteLine($"Произошла ошибка при выполнении запроса: {ex.Message}");
             }
 
+            Console.WriteLine("Нажмите любую клавишу, чтобы вернуться в меню...");
+            Console.ReadKey();
+
+        }
+        private static void ShowStatistics()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("========= СТАТИСТИКА СЕССИИ =========");
+            Console.WriteLine($"Успешно получено фактов о собаках: {dogFactsCount}");
+            Console.WriteLine($"Успешно получено фактов о кошках: {catFactsCount}");
+            Console.WriteLine($"Всего запросов обработано: {dogFactsCount + catFactsCount}");
+            Console.WriteLine("=====================================");
+            Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("Нажмите любую клавишу, чтобы вернуться в меню...");
             Console.ReadKey();
         }

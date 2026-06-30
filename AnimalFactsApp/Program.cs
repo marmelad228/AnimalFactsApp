@@ -56,6 +56,7 @@ namespace AnimalFactsApp
         }
 
         // МЕТОД ДЛЯ ОБРАБОТКИ СОБАК
+        // Асинхронный запрос к Dog API
         private static async Task FetchDogFactAsync()
         {
             string endpoint = "https://dog-api.kinduff.com/api/facts";// первый эндпоинт
@@ -103,6 +104,7 @@ namespace AnimalFactsApp
         }
 
         // МЕТОД ДЛЯ ОБРАБОТКИ КОШЕК
+        // Асинхронный запрос к Cat API
         private static async Task FetchCatFactAsync()
         {
             string endpoint = "https://catfact.ninja/fact";// второй эндпоинт

@@ -18,7 +18,7 @@ namespace AnimalFactsApp
 
         static async Task Main(string[] args)
         {
-            
+            Console.WriteLine("4. Показать статистику текущей сессии");
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             bool keepRunning = true;
 
@@ -50,10 +50,14 @@ namespace AnimalFactsApp
                         keepRunning = false;
                         Console.WriteLine("Программа успешно завершена. До встречи!");
                         break;
+                    case "4":
+                        //ShowStatistics();
+                        break;
                     default:
                         Console.WriteLine("Ошибка ввода! Нажмите любую кнопку для повтора...");
                         Console.ReadKey();
                         break;
+
                 }
             }
         }
@@ -69,7 +73,7 @@ namespace AnimalFactsApp
             {
                 HttpResponseMessage response = await client.GetAsync(endpoint);// 1 запрос rest api 
 
-                /
+                
                 Console.WriteLine($"Статус HTTP-ответа сервера: {(int)response.StatusCode} {response.StatusCode}");
 
                 if (response.IsSuccessStatusCode)

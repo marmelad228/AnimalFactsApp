@@ -18,7 +18,7 @@ namespace AnimalFactsApp
 
         static async Task Main(string[] args)
         {
-            Console.WriteLine("4. Показать статистику текущей сессии");
+            
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             bool keepRunning = true;
 
@@ -32,8 +32,9 @@ namespace AnimalFactsApp
                 Console.WriteLine("1. Получить случайный факт о собаках");
                 Console.WriteLine("2. Получить случайный факт о кошках");
                 Console.WriteLine("3. Выход из программы");
+                Console.WriteLine("4. Показать статистику текущей сессии");
                 Console.WriteLine("========================================");
-                Console.Write("Выберите действие (1-3): ");
+                Console.Write("Выберите действие (1-4): ");
                 Console.ForegroundColor = ConsoleColor.Gray;
 
                 string choice = Console.ReadLine();
@@ -51,7 +52,7 @@ namespace AnimalFactsApp
                         Console.WriteLine("Программа успешно завершена. До встречи!");
                         break;
                     case "4":
-                        //ShowStatistics();
+                        ShowStatistics();
                         break;
                     default:
                         Console.WriteLine("Ошибка ввода! Нажмите любую кнопку для повтора...");
@@ -143,6 +144,20 @@ namespace AnimalFactsApp
                 Console.WriteLine($"Произошла ошибка при выполнении запроса: {ex.Message}");
             }
 
+            Console.WriteLine("Нажмите любую клавишу, чтобы вернуться в меню...");
+            Console.ReadKey();
+
+        }
+        private static void ShowStatistics()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("========= СТАТИСТИКА СЕССИИ =========");
+            Console.WriteLine($"Успешно получено фактов о собаках: {dogFactsCount}");
+            Console.WriteLine($"Успешно получено фактов о кошках: {catFactsCount}");
+            Console.WriteLine($"Всего запросов обработано: {dogFactsCount + catFactsCount}");
+            Console.WriteLine("=====================================");
+            Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("Нажмите любую клавишу, чтобы вернуться в меню...");
             Console.ReadKey();
         }

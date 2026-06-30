@@ -77,12 +77,15 @@ namespace AnimalFactsApp
                     if (dogData != null && dogData.Facts != null && dogData.Facts.Count > 0)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine($"ФАКТ О СОБАКАХ: {dogData.Facts[0]}");
+                        Console.ResetColor();
                         Console.WriteLine($"ФАКТ О СОБАКАХ: {dogData.Facts[0]}");
                         Console.ForegroundColor = ConsoleColor.Gray;
                     }
                     else
                     {
-                        // Если сервер прислал пустой массив, выведем сырой текст ответа для отладки
+                        // Если сервер прислал пустой массив, выведем сырой текст ответа 
                         Console.WriteLine("Сервер вернул успешный статус, но массив фактов пуст.");
                         Console.WriteLine($"Ответ сервера: {jsonString}");
                     }

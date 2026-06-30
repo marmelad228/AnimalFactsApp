@@ -18,7 +18,7 @@ namespace AnimalFactsApp
 
         static async Task Main(string[] args)
         {
-            // Настройка консоли на корректное чтение кириллицы
+            
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             bool keepRunning = true;
 
@@ -69,17 +69,18 @@ namespace AnimalFactsApp
             {
                 HttpResponseMessage response = await client.GetAsync(endpoint);// 1 запрос rest api 
 
-                // Выводим статус ответа
+                /
                 Console.WriteLine($"Статус HTTP-ответа сервера: {(int)response.StatusCode} {response.StatusCode}");
 
                 if (response.IsSuccessStatusCode)
                 {
+                    dogFactsCount++;
                     string jsonString = await response.Content.ReadAsStringAsync();
 
                     // Парсим в класс DogFact
                     DogFact dogData = JsonConvert.DeserializeObject<DogFact>(jsonString);
 
-                    // ПРОВЕРКА: Если массив фактов не пустой, выводим нулевой элемент
+                    // Если массив фактов не пустой, выводим нулевой элемент
                     if (dogData != null && dogData.Facts != null && dogData.Facts.Count > 0)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
@@ -91,7 +92,7 @@ namespace AnimalFactsApp
                     }
                     else
                     {
-                        // Если сервер прислал пустой массив, выведем сырой текст ответа 
+                        // Если сервер прислал пустой массив
                         Console.WriteLine("Сервер вернул успешный статус, но массив фактов пуст.");
                         Console.WriteLine($"Ответ сервера: {jsonString}");
                     }
@@ -117,14 +118,15 @@ namespace AnimalFactsApp
             {
                 HttpResponseMessage response = await client.GetAsync(endpoint);//  2 запрос rest api
 
-                // Выводим статус ответа
+                
                 Console.WriteLine($"Статус HTTP-ответа сервера: {(int)response.StatusCode} {response.StatusCode}");
 
                 if (response.IsSuccessStatusCode)
                 {
+                    catFactsCount++;
                     string jsonString = await response.Content.ReadAsStringAsync();
 
-                    // Парсим в наш класс CatFact (название обновлено)
+                    // Парсим в наш класс CatFact 
                     CatFact catData = JsonConvert.DeserializeObject<CatFact>(jsonString);
 
                     Console.ForegroundColor = ConsoleColor.Cyan;

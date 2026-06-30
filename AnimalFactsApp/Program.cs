@@ -22,6 +22,7 @@ namespace AnimalFactsApp
             while (keepRunning)
             {
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("========================================");
                 Console.WriteLine("      ПРИЛОЖЕНИЕ: ИНТЕРЕСНЫЕ ФАКТЫ     ");
                 Console.WriteLine("========================================");
@@ -30,6 +31,7 @@ namespace AnimalFactsApp
                 Console.WriteLine("3. Выход из программы");
                 Console.WriteLine("========================================");
                 Console.Write("Выберите действие (1-3): ");
+                Console.ForegroundColor = ConsoleColor.Gray;
 
                 string choice = Console.ReadLine();
 

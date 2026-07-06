@@ -11,6 +11,7 @@ namespace AnimalFactsApp
     internal class Program
 
     {
+       
         private static int dogFactsCount = 0;
         private static int catFactsCount = 0;
         // Создаем один общий HttpClient для запросов
